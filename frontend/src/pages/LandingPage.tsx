@@ -1,19 +1,19 @@
 import { Link } from 'react-router-dom'
 import {
+  ArrowRight,
+  Download,
+  FileOutput,
+  Gem,
+  Image,
+  Layers,
+  Merge,
+  Minimize2,
+  Pen,
+  ScanText,
   Scissors,
   Shield,
-  Minimize2,
-  ScanText,
-  Image,
-  Merge,
-  ArrowRight,
-  Layers,
   Upload,
   Wand2,
-  Download,
-  Gem,
-  Pen,
-  FileOutput,
 } from 'lucide-react'
 
 const tools = [
@@ -28,29 +28,48 @@ const tools = [
 ]
 
 const steps = [
-  { num: '01', icon: Upload, title: 'Upload', body: 'Drop any PDF into your workspace. Stored securely under your account.' },
-  { num: '02', icon: Wand2, title: 'Process', body: 'Pick a tool — merge, split, compress, protect, annotate, convert, and more.' },
-  { num: '03', icon: Download, title: 'Download', body: 'Every operation creates a new file. Your originals are never modified.' },
+  {
+    num: '01',
+    icon: Upload,
+    title: 'Upload',
+    body: 'Drop any PDF into your workspace. Stored securely under your account.',
+  },
+  {
+    num: '02',
+    icon: Wand2,
+    title: 'Process',
+    body: 'Pick a tool — merge, split, compress, protect, annotate, convert, and more.',
+  },
+  {
+    num: '03',
+    icon: Download,
+    title: 'Download',
+    body: 'Every operation creates a new file. Your originals are never modified.',
+  },
 ]
+
+const primaryButtonClass =
+  'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-brand-500 to-brand-600 px-6 py-3.5 text-[15px] font-medium text-white shadow-[0_2px_24px_rgba(45,98,255,.35)] transition-all hover:-translate-y-px hover:shadow-[0_4px_32px_rgba(45,98,255,.5)] active:translate-y-0'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#050e18] text-slate-200 relative">
-      {/* ── CSS ─────────────────────────────────────────────── */}
+    <div className="relative min-h-screen overflow-x-hidden bg-[#050e18] text-slate-200">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap');
 
         @keyframes reveal {
           from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
+          to { opacity: 1; transform: translateY(0); }
         }
+
         @keyframes fade {
           from { opacity: 0; }
-          to   { opacity: 1; }
+          to { opacity: 1; }
         }
+
         @keyframes rotate-slow {
           from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
+          to { transform: rotate(360deg); }
         }
 
         .anim-reveal { animation: reveal .8s cubic-bezier(.16,1,.3,1) both; }
@@ -60,22 +79,21 @@ export default function LandingPage() {
         .anim-d4 { animation-delay: .36s; }
         .anim-fade { animation: fade .6s ease both; }
 
-        /* Dot grid texture */
         .dot-grid {
           background-image: radial-gradient(rgba(148,163,184,.07) 1px, transparent 1px);
           background-size: 24px 24px;
         }
 
-        /* Crystal prism */
         .prism {
-          width: 340px;
-          height: 340px;
           position: relative;
+          width: min(72vw, 340px);
+          height: min(72vw, 340px);
         }
+
         .prism::before {
-          content: '';
           position: absolute;
           inset: 0;
+          content: '';
           background: conic-gradient(
             from 160deg,
             rgba(45,98,255,.18),
@@ -88,10 +106,11 @@ export default function LandingPage() {
           clip-path: polygon(50% 4%, 93% 28%, 93% 72%, 50% 96%, 7% 72%, 7% 28%);
           animation: rotate-slow 40s linear infinite;
         }
+
         .prism::after {
-          content: '';
           position: absolute;
-          inset: 30px;
+          inset: 9%;
+          content: '';
           background: conic-gradient(
             from 220deg,
             rgba(96,165,250,.1),
@@ -104,109 +123,97 @@ export default function LandingPage() {
           animation: rotate-slow 60s linear infinite reverse;
         }
 
-        /* Feature card */
         .tool-card {
           background: rgba(255,255,255,.02);
           border: 1px solid rgba(255,255,255,.05);
           transition: all .25s ease;
         }
+
         .tool-card:hover {
           background: rgba(255,255,255,.04);
           border-color: rgba(96,165,250,.18);
-          transform: translateY(-2px);
           box-shadow: 0 16px 48px -12px rgba(0,0,0,.5), 0 0 0 1px rgba(96,165,250,.08);
+          transform: translateY(-2px);
         }
 
-        /* Step connector dash */
-        .step-connector {
-          width: 100%;
-          height: 1px;
-          background: repeating-linear-gradient(
-            90deg,
-            rgba(96,165,250,.2) 0px,
-            rgba(96,165,250,.2) 6px,
-            transparent 6px,
-            transparent 12px
-          );
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
+            scroll-behavior: auto !important;
+            transition-duration: .01ms !important;
+          }
         }
       `}</style>
 
-      {/* ── Ambient glow ───────────────────────────────────── */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden>
-        <div className="absolute -top-[30%] left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(45,98,255,.1) 0%, transparent 65%)' }} />
-        <div className="absolute top-[55%] -right-[10%] w-[500px] h-[500px] rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(56,189,248,.05) 0%, transparent 65%)' }} />
+      <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
+        <div
+          className="absolute left-1/2 top-[-18rem] h-[42rem] w-[42rem] max-w-none -translate-x-1/2 rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(45,98,255,.1) 0%, transparent 65%)' }}
+        />
+        <div
+          className="absolute right-[-14rem] top-[55%] h-[30rem] w-[30rem] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(56,189,248,.05) 0%, transparent 65%)' }}
+        />
       </div>
 
-      {/* ── Nav ────────────────────────────────────────────── */}
-      <nav className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/[.04]"
-        style={{ background: 'rgba(5,14,24,.75)' }}>
-        <div className="max-w-6xl mx-auto flex items-center justify-between px-6 h-16">
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-blue-400 flex items-center justify-center
-                            shadow-lg shadow-brand-500/20 group-hover:shadow-brand-500/40 transition-shadow">
+      <nav
+        className="sticky top-0 z-50 border-b border-white/[.04] backdrop-blur-xl"
+        style={{ background: 'rgba(5,14,24,.75)' }}
+      >
+        <div className="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center gap-x-2 gap-y-1 px-4 py-2 sm:flex-nowrap sm:px-6 sm:py-0">
+          <Link to="/" className="flex min-h-11 shrink-0 items-center gap-2.5 group">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-blue-400 shadow-lg shadow-brand-500/20 transition-shadow group-hover:shadow-brand-500/40">
               <Gem size={14} className="text-white" />
             </div>
             <span className="font-display text-lg font-semibold tracking-tight text-white">
               Crystal<span className="text-blue-400">PDF</span>
             </span>
           </Link>
-          <div className="flex items-center gap-2">
-            <Link to="/login"
-              className="text-sm text-slate-400 hover:text-white px-4 py-2 transition-colors">
+
+          <div className="ml-auto flex items-center gap-1 sm:gap-2">
+            <Link
+              to="/login"
+              className="inline-flex min-h-11 items-center justify-center whitespace-nowrap px-3 py-2 text-sm text-slate-400 transition-colors hover:text-white sm:px-4"
+            >
               Sign in
             </Link>
-            <Link to="/register"
-              className="text-sm font-medium text-blue-300 bg-brand-500/15 hover:bg-brand-500/25
-                         border border-brand-500/25 hover:border-brand-500/40
-                         px-4 py-2 rounded-lg transition-all">
+            <Link
+              to="/register"
+              className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-lg border border-brand-500/25 bg-brand-500/15 px-3 py-2 text-sm font-medium text-blue-300 transition-all hover:border-brand-500/40 hover:bg-brand-500/25 sm:px-4"
+            >
               Get started
             </Link>
           </div>
         </div>
       </nav>
 
-      {/* ── Hero ───────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-6xl mx-auto px-6
-                          pt-20 pb-24 md:pt-32 md:pb-36
-                          grid md:grid-cols-[1fr,auto] items-center gap-12">
-        {/* Text column */}
-        <div className="max-w-2xl">
-          <h1 className="font-display font-semibold tracking-tight leading-[1.1]
-                         text-[clamp(2.2rem,5.5vw,4.8rem)] text-white anim-reveal">
+      <section className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-20 md:grid-cols-[minmax(0,1fr),auto] md:gap-12 md:pb-36 md:pt-32">
+        <div className="min-w-0 max-w-2xl">
+          <h1 className="anim-reveal font-display text-[clamp(2.2rem,11vw,4.8rem)] font-semibold leading-[1.1] tracking-tight text-white sm:text-[clamp(2.2rem,5.5vw,4.8rem)]">
             Every<br className="hidden sm:block" /> PDF tool<br className="hidden sm:block" /> you'll ever{' '}
             <em className="not-italic text-blue-400">need.</em>
           </h1>
 
-          <p className="mt-7 text-[clamp(1rem,1.8vw,1.2rem)] leading-relaxed
-                        text-slate-400 max-w-md anim-reveal anim-d2">
-            Merge, split, compress, protect, convert, and annotate&nbsp;&mdash;
-            from one elegant workspace. No subscriptions, no upload limits.
+          <p className="anim-reveal anim-d2 mt-7 max-w-md text-[clamp(1rem,1.8vw,1.2rem)] leading-relaxed text-slate-400">
+            Merge, split, compress, protect, convert, and annotate — from one elegant workspace. No subscriptions, no upload limits.
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-3 anim-reveal anim-d3">
-            <Link to="/register"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-[15px] font-medium
-                         text-white bg-gradient-to-b from-brand-500 to-brand-600
-                         shadow-[0_2px_24px_rgba(45,98,255,.35)]
-                         hover:shadow-[0_4px_32px_rgba(45,98,255,.5)]
-                         hover:-translate-y-px active:translate-y-0 transition-all">
+          <div className="anim-reveal anim-d3 mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap">
+            <Link to="/register" className={`${primaryButtonClass} w-full sm:w-auto`}>
               Start for free <ArrowRight size={15} strokeWidth={2.2} />
             </Link>
-            <Link to="/login"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-[15px] font-medium
-                         text-slate-300 border border-white/10 hover:border-white/20
-                         hover:bg-white/[.03] transition-all">
+            <Link
+              to="/login"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/10 px-6 py-3.5 text-[15px] font-medium text-slate-300 transition-all hover:border-white/20 hover:bg-white/[.03] sm:w-auto"
+            >
               Sign in to workspace
             </Link>
           </div>
         </div>
 
-        {/* Crystal visual */}
-        <div className="hidden md:flex items-center justify-center anim-fade anim-d4">
+        <div className="anim-fade anim-d4 hidden items-center justify-center md:flex" aria-hidden="true">
           <div className="prism">
-            {/* Inner facets */}
             <div className="absolute inset-0 flex items-center justify-center">
               <Layers size={48} className="text-blue-400/30" strokeWidth={1} />
             </div>
@@ -214,90 +221,61 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Tools grid ─────────────────────────────────────── */}
       <section className="relative z-10 dot-grid">
-        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          {/* Section header */}
-          <div className="max-w-lg mb-14">
-            <p className="text-xs font-medium tracking-[.15em] uppercase text-brand-400 mb-4">
-              Toolkit
-            </p>
-            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-semibold
-                           tracking-tight leading-[1.05] text-white">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 md:py-32">
+          <div className="mb-10 max-w-lg sm:mb-14">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[.15em] text-brand-400">Toolkit</p>
+            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-white">
               Everything in<br className="hidden sm:block" /> one workspace
             </h2>
-            <p className="mt-4 text-slate-500 leading-relaxed text-[15px]">
+            <p className="mt-4 text-[15px] leading-relaxed text-slate-500">
               Every operation produces a new file — your originals stay untouched.
             </p>
           </div>
 
-          {/* Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {tools.map((t) => (
-              <div key={t.name} className="tool-card rounded-2xl p-5 cursor-default group">
-                <div className="w-10 h-10 rounded-xl bg-blue-400/[.08] border border-blue-400/[.12]
-                                flex items-center justify-center mb-4
-                                group-hover:bg-blue-400/[.12] group-hover:border-blue-400/[.2]
-                                transition-colors">
-                  <t.icon size={18} className="text-blue-400" strokeWidth={1.8} />
+          <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 sm:grid-cols-4">
+            {tools.map((tool) => (
+              <div key={tool.name} className="tool-card group cursor-default rounded-2xl p-4 sm:p-5">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-blue-400/[.12] bg-blue-400/[.08] transition-colors group-hover:border-blue-400/[.2] group-hover:bg-blue-400/[.12]">
+                  <tool.icon size={18} className="text-blue-400" strokeWidth={1.8} />
                 </div>
-                <p className="text-[15px] font-semibold text-white tracking-tight mb-1">
-                  {t.name}
-                </p>
-                <p className="text-[13px] text-slate-500 leading-snug">
-                  {t.desc}
-                </p>
+                <p className="mb-1 text-[15px] font-semibold tracking-tight text-white">{tool.name}</p>
+                <p className="text-[13px] leading-snug text-slate-500">{tool.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── How it works ───────────────────────────────────── */}
       <section className="relative z-10 border-t border-white/[.04]">
-        <div className="max-w-3xl mx-auto px-6 py-24 md:py-32">
-          <div className="text-center max-w-lg mx-auto mb-16">
-            <p className="text-xs font-medium tracking-[.15em] uppercase text-brand-400 mb-4">
-              How it works
-            </p>
-            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-semibold
-                           tracking-tight leading-[1.05] text-white">
+        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24 md:py-32">
+          <div className="mx-auto mb-12 max-w-lg text-center sm:mb-16">
+            <p className="mb-4 text-xs font-medium uppercase tracking-[.15em] text-brand-400">How it works</p>
+            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-white">
               Three steps, that's it
             </h2>
           </div>
 
-          <div className="flex flex-col gap-0">
-            {steps.map((s, i) => (
-              <div key={s.num}>
-                {/* Step row */}
-                <div className="flex items-start gap-5">
-                  {/* Left: number + icon */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center
-                                    bg-brand-500/10 border border-brand-500/20 shrink-0">
-                      <s.icon size={20} className="text-blue-400" strokeWidth={1.6} />
+          <div>
+            {steps.map((step, index) => (
+              <div key={step.num}>
+                <div className="flex items-start gap-4 sm:gap-5">
+                  <div className="flex shrink-0 flex-col items-center">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-brand-500/20 bg-brand-500/10">
+                      <step.icon size={20} className="text-blue-400" strokeWidth={1.6} />
                     </div>
                   </div>
-
-                  {/* Right: text */}
-                  <div className="pt-1">
-                    <p className="text-xs font-medium text-brand-400/60 tracking-wider mb-1">
-                      Step {s.num}
-                    </p>
-                    <h3 className="text-base font-semibold text-white tracking-tight mb-1.5">
-                      {s.title}
-                    </h3>
-                    <p className="text-sm text-slate-500 leading-relaxed max-w-sm">
-                      {s.body}
-                    </p>
+                  <div className="min-w-0 pt-1">
+                    <p className="mb-1 text-xs font-medium tracking-wider text-brand-400/60">Step {step.num}</p>
+                    <h3 className="mb-1.5 text-base font-semibold tracking-tight text-white">{step.title}</h3>
+                    <p className="max-w-sm text-sm leading-relaxed text-slate-500">{step.body}</p>
                   </div>
                 </div>
 
-                {/* Connector between steps */}
-                {i < steps.length - 1 && (
-                  <div className="flex items-stretch gap-5 py-1">
-                    <div className="w-12 flex justify-center shrink-0">
-                      <div className="w-px h-8 bg-gradient-to-b from-brand-500/20 to-transparent" />
+                {index < steps.length - 1 && (
+                  <div className="flex items-stretch gap-4 py-1 sm:gap-5" aria-hidden="true">
+                    <div className="flex w-12 shrink-0 justify-center">
+                      <div className="h-8 w-px bg-gradient-to-b from-brand-500/20 to-transparent" />
                     </div>
                   </div>
                 )}
@@ -307,48 +285,37 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CTA ────────────────────────────────────────────── */}
       <section className="relative z-10 border-t border-white/[.04]">
-        <div className="max-w-6xl mx-auto px-6 py-28 md:py-36 text-center">
-          {/* Soft top glow */}
-          <div className="absolute inset-x-0 top-0 h-64 pointer-events-none"
-            style={{ background: 'radial-gradient(ellipse 50% 100% at 50% 0%, rgba(45,98,255,.06), transparent)' }} />
-
-          <p className="text-sm text-slate-500 mb-4 relative">
-            Free to use. No credit card required.
-          </p>
-          <h2 className="font-display text-[clamp(2.4rem,5.5vw,4.5rem)] font-semibold
-                         tracking-tight leading-[.95] text-white mb-10 relative">
-            Start working with<br />
-            your PDFs today.
+        <div className="relative mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-28 md:py-36">
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-64"
+            style={{ background: 'radial-gradient(ellipse 50% 100% at 50% 0%, rgba(45,98,255,.06), transparent)' }}
+            aria-hidden="true"
+          />
+          <p className="relative mb-4 text-sm text-slate-500">Free to use. No credit card required.</p>
+          <h2 className="relative mb-8 font-display text-[clamp(2.4rem,11vw,4.5rem)] font-semibold leading-[.95] tracking-tight text-white sm:mb-10 sm:text-[clamp(2.4rem,5.5vw,4.5rem)]">
+            Start working with<br /> your PDFs today.
           </h2>
-          <div className="relative flex flex-wrap justify-center gap-3">
-            <Link to="/register"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-medium
-                         text-white bg-gradient-to-b from-brand-500 to-brand-600
-                         shadow-[0_2px_24px_rgba(45,98,255,.35)]
-                         hover:shadow-[0_4px_32px_rgba(45,98,255,.5)]
-                         hover:-translate-y-px transition-all">
+          <div className="relative flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
+            <Link to="/register" className={`${primaryButtonClass} w-full px-7 sm:w-auto`}>
               Create free account <ArrowRight size={15} strokeWidth={2.2} />
             </Link>
-            <Link to="/login"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-medium
-                         text-slate-400 hover:text-slate-200 transition-colors">
+            <Link
+              to="/login"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-[15px] font-medium text-slate-400 transition-colors hover:text-slate-200 sm:w-auto"
+            >
               or sign in
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Footer ─────────────────────────────────────────── */}
       <footer className="relative z-10 border-t border-white/[.04]">
-        <div className="max-w-6xl mx-auto px-6 py-8 flex items-center justify-between flex-wrap gap-4">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-8 text-center sm:flex-row sm:justify-between sm:gap-4 sm:px-6 sm:text-left">
           <span className="font-display text-sm font-semibold text-slate-600">
             Crystal<span className="text-blue-400/50">PDF</span>
           </span>
-          <p className="text-xs text-slate-700">
-            Secure, server-side processing. Your files never leave your account.
-          </p>
+          <p className="text-xs text-slate-700">Secure, server-side processing. Your files never leave your account.</p>
         </div>
       </footer>
     </div>
